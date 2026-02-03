@@ -1,6 +1,6 @@
 # Ecosystem DSL
 
-A powerful Clojure DSL for generating enhanced PM2 ecosystem configurations from simple EDN files.
+Deprecated. Use `pm2-clj` with `*.pm2.edn` files for PM2 ecosystems. This document is retained for legacy reference only.
 
 ## Overview
 
@@ -66,7 +66,7 @@ For a simple script equivalent to `pm2 start \"script.js\" --name \"foobar\"`, p
 
 ### 3. Generated Output
 
-The DSL now always generates per-daemon configs next to each `ecosystem.edn` in `dist/ecosystem.config.mjs` (do not edit these). An aggregate `ecosystem.config.enhanced.mjs` is still available when you omit `--skip-aggregate`.
+Legacy note: pm2-clj now uses `ecosystem.pm2.edn` sources directly; per-daemon `dist/ecosystem.config.mjs` files remain generated artifacts for legacy workflows.
 
 - Automatic Nx watcher integration (aggregate only)
 - Enhanced logging configuration
@@ -80,7 +80,7 @@ The DSL now always generates per-daemon configs next to each `ecosystem.edn` in 
 | Option | Short | Description | Default |
 |--------|-------|-------------|---------|
 | `--dir` | `-d` | System directory containing EDN files | `system` |
-| `--output` | `-o` | Output ecosystem file | `ecosystem.config.enhanced.mjs` |
+| `--output` | `-o` | Output ecosystem file | `ecosystem.config.enhanced.mjs` (legacy) |
 | `--watch` | `-w` | Enable file watching for auto-regeneration | `false` |
 | `--skip-aggregate` |  | Skip writing the aggregate ecosystem file (per-daemon dists only) | `false` |
 | `--validate-only` | `-v` | Only validate EDN files, don't generate | `false` |
@@ -180,16 +180,16 @@ The watcher monitors:
 
 ```bash
 # Start all processes
-pm2 start ecosystem.config.enhanced.mjs
+pm2-clj start ecosystem.pm2.edn
 
 # Start specific environment
-NODE_ENV=production pm2 start ecosystem.config.enhanced.mjs
+NODE_ENV=production pm2-clj start ecosystem.pm2.edn --mode production
 
 # Reload after changes
-pm2 reload ecosystem.config.enhanced.mjs
+pm2 reload ecosystem.config.enhanced.mjs (legacy)
 
 # Start a single daemon from its generated dist file
-pm2 start system/daemons/<group>/<name>/dist/ecosystem.config.mjs
+pm2-clj start system/daemons/<group>/<name>/ecosystem.pm2.edn
 ```
 
 ### Monitor Processes
